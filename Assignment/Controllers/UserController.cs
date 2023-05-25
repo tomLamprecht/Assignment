@@ -18,6 +18,5 @@ namespace Assignment.Controllers
             return View(userService.GetUser("1"));
         }
 
-
     }
 }
