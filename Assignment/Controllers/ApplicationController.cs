@@ -68,5 +68,44 @@ namespace Assignment.Controllers
             applicationService.AddApplication(auu);
             return RedirectToAction("GetUser", "User", new { id = auu.UserId });
         }
+
+        public ActionResult deleteApplication(int id)
+        {
+            string offer = applicationService.GetApplication(id).Offer;
+            if(offer == "R" || offer == "P" || offer == "C" || offer == "U")
+            {
+                Debug.WriteLine("Application cant be delted due to invalid offer state ");
+                return RedirectToAction("GetUser", "User", new { id = "1" });
+            }
+
+
+            applicationService.DeleteApplication(id);
+
+            return RedirectToAction("GetUser", "User", new { id = "1" }); //TODO HARDCODED USER ID!!!!!!!!!
+        }
+
+        public ActionResult goFirm(int id)
+        {
+           string userId = "1"; //TODO HARDCODED USER ID!!!!!!
+
+            string offer = applicationService.GetApplication(id).Offer;
+            if (offer != "C" && offer != "U")
+            {
+                Debug.WriteLine("Application can not go firm due to invalid Offer State");
+                return RedirectToAction("GetUser", "User", new { id = userId });
+            }
+
+            User user = userService.GetUser(userId);
+            if(user.Applications.Any(app => app.Firm))
+            {
+                Debug.WriteLine("User is already Firm on an application. Cannot go Firm on more than one!");
+                return RedirectToAction("GetUser", "User", new { id = userId });
+            }
+
+            applicationService.SetFirm(id, true); 
+            
+
+            return RedirectToAction("GetUser", "User", new { id = "1" }); //TODO HARDCODED USER ID!!!!!!!!!
+        }
     }
 }

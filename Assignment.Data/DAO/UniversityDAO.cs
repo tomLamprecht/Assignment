@@ -30,7 +30,32 @@ namespace Assignment.Data.DAO
 
         public University GetUniversity(AssignmentContext context, int id)
         {
+            context.Universities.Include(uni => uni.Applications).ToList();
             return context.Universities.Find(id);
+        }
+
+        public University GetUniversity(AssignmentContext context, Application application)
+        {
+            IList<University> uniList = context.Universities.Include(uni => uni.Applications).ToList();
+            foreach (var uni in uniList)
+            {
+                if(uni.Applications.Any(app => app.ApplicationId == application.ApplicationId))
+                {
+                    return uni;
+                }
+            }
+            return null;
+        }
+
+        public void RemoveApplicationFromCollection(AssignmentContext context, Application application, University university)
+        {
+            //Make super duper sure to prevent lazy loading ...
+            university = GetUniversity(context, university.UniversityId);
+
+            if (university.Applications != null) {
+                university.Applications.Remove(application);
+                context.SaveChanges();
+            }
         }
     }
 }

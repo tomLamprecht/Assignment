@@ -8,6 +8,7 @@
 
 <div>
     <h4>User</h4>
+    <a asp-action="EditUser" asp-controller="User" asp-route-id="@Model.UserId">Edit</a> |
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -43,8 +44,6 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.UserId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
     <a asp-action="chooseUniversity" asp-controller="Application">First Step of Application Creation</a>
 
 </div>

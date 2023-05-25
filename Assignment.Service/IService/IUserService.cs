@@ -11,5 +11,9 @@ namespace Assignment.Service.Service
     {
         User GetUser(string UserId);
 
+        void UpdateUser(User user);
+
+        void AddUser(User user);
+
     }
 }

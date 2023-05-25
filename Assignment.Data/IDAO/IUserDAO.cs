@@ -12,9 +12,14 @@ namespace Assignment.Data.IDAO
     {
         User GetUser(AssignmentContext context, String id);
 
-
         void AddApplicationToUser(AssignmentContext context, Application application, string userId);
 
-   
+        void RemoveApplicationFromUser(AssignmentContext context, Application application, string userId);
+
+        User GetUser(AssignmentContext context, Application application);
+
+        void UpdateUserDetails(AssignmentContext context, User user);
+
+        void SaveUser(AssignmentContext context, User user);
     }
 }

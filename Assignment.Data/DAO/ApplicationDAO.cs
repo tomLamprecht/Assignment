@@ -15,5 +15,27 @@ namespace Assignment.Data.DAO
         {
             context.Applications.Add(application);
         }
+
+        public void DeleteApplication(AssignmentContext context, Application application)
+        {
+            context.Applications.Remove(application);
+
+            context.SaveChanges();
+        }
+
+        public Application GetApplication(AssignmentContext context, int id)
+        {
+            return context.Applications.Find(id);
+        }
+
+ 
+
+        public void SetFirm(AssignmentContext context, int applicationId, bool firm)
+        {
+            Application application = GetApplication(context, applicationId);
+            application.Firm = firm;
+            context.Update(application);
+            context.SaveChanges();
+        }
     }
 }
