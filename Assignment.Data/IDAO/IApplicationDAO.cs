@@ -8,13 +8,9 @@ using System.Threading.Tasks;
 
 namespace Assignment.Data.IDAO
 {
-    public interface IUserDAO
+    public interface IApplicationDAO
     {
-        User GetUser(AssignmentContext context, String id);
+        void AddApplication(AssignmentContext context, Application application);
 
-
-        void AddApplicationToUser(AssignmentContext context, Application application, string userId);
-
-   
     }
 }

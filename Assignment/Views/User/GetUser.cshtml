@@ -4,7 +4,7 @@
     ViewData["Title"] = "GetUser";
 }
 
-<h1>GetUser</h1>
+<h1>Dashboard</h1>
 
 <div>
     <h4>User</h4>
@@ -35,8 +35,16 @@
             @Html.DisplayFor(model => model.Email)
         </dd>
     </dl>
+
+    <div>
+        <h2>Applications:</h2>
+        @if(Model.Applications.Count != 0)
+            @Html.Partial("~/Views/User/Application.cshtml", Model.Applications)
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.UserId">Edit</a> |
     <a asp-action="Index">Back to List</a>
+    <a asp-action="chooseUniversity" asp-controller="Application">First Step of Application Creation</a>
+
 </div>
