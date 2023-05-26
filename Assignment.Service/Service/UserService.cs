@@ -20,10 +20,27 @@ namespace Assignment.Service.IService
             userDAO = new UserDAO();
         }
 
+        public void AddUser(User user)
+        {
+            using (AssignmentContext context = new AssignmentContext()) {
+                userDAO.SaveUser(context, user);
+                context.SaveChanges();
+            }
+        }
+
         public User GetUser(string UserId)
         {
             using (AssignmentContext context = new AssignmentContext()) {
                 return userDAO.GetUser(context, UserId);
+            }
+        }
+
+        public void UpdateUser(User user)
+        {
+            using(AssignmentContext context = new AssignmentContext())
+            {
+                userDAO.UpdateUserDetails(context, user);
+                context.SaveChanges();
             }
         }
     }

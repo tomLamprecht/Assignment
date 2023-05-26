@@ -10,6 +10,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Assignment.Data.Models.Domains;
+using Assignment.Service.IService;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -44,6 +46,8 @@ namespace Assignment.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
         }
+
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -97,6 +101,18 @@ namespace Assignment.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+
+            [Required]
+            public string Name { get; set; }
+
+            [Required]
+            [Phone]
+            public string Phone { get; set; }
+
+            [Required]
+
+            public string Address { get; set; }
         }
 
 
@@ -120,7 +136,23 @@ namespace Assignment.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "User".ToUpper()) ;
+                
+
+                    _logger.LogInformation(HttpContext.Session.GetString("userId"));
+
+                    User u = new User()
+                    {
+                        UserId = user.Id,
+                        Name = Input.Name,
+                        Email = Input.Email,
+                        Address = Input.Address,
+                        Phone = Input.Phone,
+
+                    };
+
+                    UserService userService = new UserService();
+                    userService.AddUser(u);
+
 
                     _logger.LogInformation("User created a new account with password.");
 

@@ -1,4 +1,5 @@
 ﻿using Assignment.Data.DAO;
+using Assignment.Data.IDAO;
 using Assignment.Data.Models.Domains;
 using Assignment.Data.Models.Repository;
 using Assignment.Service.IService;
@@ -13,9 +14,9 @@ namespace Assignment.Service.Service
 {
     public class ApplicationService : IApplicationService
     {
-        ApplicationDAO applicationDAO;
-        UserDAO userDAO;
-        UniversityDAO universityDAO;
+        IApplicationDAO applicationDAO;
+        IUserDAO userDAO;
+        IUniversityDAO universityDAO;
 
         public ApplicationService()
         {
@@ -55,6 +56,35 @@ namespace Assignment.Service.Service
             catch
             {
                 return false; 
+            }
+        }
+
+        public void DeleteApplication(int applicationId)
+        {
+            using (AssignmentContext context = new AssignmentContext()) {
+                Application application = applicationDAO.GetApplication(context, applicationId);
+                User user = userDAO.GetUser(context, application);
+                userDAO.RemoveApplicationFromUser(context, application, user.UserId);
+                University university = universityDAO.GetUniversity(context, application);
+                universityDAO.RemoveApplicationFromCollection(context, application, university);
+                applicationDAO.DeleteApplication(context, application);
+                context.SaveChanges();
+            }
+        }
+
+        public Application GetApplication(int applicationId)
+        {
+            using (AssignmentContext context = new AssignmentContext())
+            {
+                return applicationDAO.GetApplication(context, applicationId);
+            }
+        }
+
+        public void SetFirm(int applicationId, bool firm)
+        {
+            using (AssignmentContext context = new AssignmentContext())
+            {
+                applicationDAO.SetFirm(context, applicationId, firm);
             }
         }
     }

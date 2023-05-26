@@ -12,9 +12,12 @@ namespace Assignment.Data.IDAO
     {
         public void AddApplicationToCollection(AssignmentContext context, Application application, University university);
 
+        public void RemoveApplicationFromCollection(AssignmentContext context, Application application, University university);
         public University GetUniversity(AssignmentContext context, int id);
 
         IList<University> GetUniversities(AssignmentContext context);
+
+        public University GetUniversity(AssignmentContext context, Application application); 
 
     }
 }

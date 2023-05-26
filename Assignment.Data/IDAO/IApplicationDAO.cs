@@ -10,7 +10,11 @@ namespace Assignment.Data.IDAO
 {
     public interface IApplicationDAO
     {
+        Application GetApplication(AssignmentContext context, int id);
         void AddApplication(AssignmentContext context, Application application);
 
+        void DeleteApplication(AssignmentContext context, Application application);
+
+        void SetFirm(AssignmentContext context, int applicationId, bool firm);
     }
 }
